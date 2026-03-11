@@ -1,50 +1,39 @@
-import { AbsoluteFill, Audio, Img, useCurrentFrame, useVideoConfig } from 'remotion';
+import { AbsoluteFill, Audio, Img, useCurrentFrame, Series } from 'remotion';
 
 export type VideoProps = {
-    imageUrl: string;
-    voiceoverUrl?: string;
-    caption?: string;
+    audioUrl: string;
+    captions: any;
+    scenes: {
+        imageUrl: string;
+        imagePrompt: string;
+        duration: number;
+    }[];
 };
 
-export const MyVideoTemplate: React.FC<VideoProps> = ({ imageUrl, voiceoverUrl, caption }) => {
-    const frame = useCurrentFrame();
-    const { fps } = useVideoConfig();
-
-    // Simple animation: zoom in the image slowly over time
-    // E.g., over 300 frames it zooms from 1.0 to 1.3
-    const scale = 1 + frame / 1000;
-
+export const MyVideoTemplate: React.FC<VideoProps> = ({ audioUrl, scenes }) => {
     return (
-        <AbsoluteFill style={{ backgroundColor: 'black', justifyContent: 'center', alignItems: 'center' }}>
-            {/* 1. Background Image */}
-            <AbsoluteFill>
-                <Img
-                    src={imageUrl}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${scale})` }}
-                />
-            </AbsoluteFill>
+        <AbsoluteFill style={{ backgroundColor: 'black' }}>
+            <Series>
+                {scenes.map((scene, index) => (
+                    <Series.Sequence key={index} durationInFrames={Math.round(scene.duration * 30)}>
+                        <SceneItem imageUrl={scene.imageUrl} />
+                    </Series.Sequence>
+                ))}
+            </Series>
+            {audioUrl && <Audio src={audioUrl} />}
+        </AbsoluteFill>
+    );
+};
 
-            {/* 2. Voiceover Audio */}
-            {voiceoverUrl && <Audio src={voiceoverUrl} />}
-
-            {/* 3. Text Caption overlay */}
-            {caption && (
-                <h1
-                    style={{
-                        position: 'absolute',
-                        bottom: '100px',
-                        color: 'white',
-                        fontSize: '60px',
-                        fontWeight: 'bold',
-                        textShadow: '0 0 10px black',
-                        textAlign: 'center',
-                        width: '80%',
-                        fontFamily: 'sans-serif'
-                    }}
-                >
-                    {caption}
-                </h1>
-            )}
+const SceneItem: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
+    const frame = useCurrentFrame();
+    const scale = 1 + frame / 1000;
+    return (
+        <AbsoluteFill>
+            <Img
+                src={imageUrl}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${scale})` }}
+            />
         </AbsoluteFill>
     );
 };
