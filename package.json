@@ -1,0 +1,41 @@
+{
+  "name": "ai-video-renderer",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node --esm src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --esm src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mayo-ri/ai-video-renderer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mayo-ri/ai-video-renderer/issues"
+  },
+  "homepage": "https://github.com/Mayo-ri/ai-video-renderer#readme",
+  "description": "",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.434",
+    "@remotion/renderer": "^4.0.434",
+    "@supabase/supabase-js": "^2.99.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.4.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
