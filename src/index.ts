@@ -23,7 +23,7 @@ app.post('/api/render', async (req, res) => {
 
     // 1. Bundle the project (Make sure this path is correct in your Render repo)
     const bundleLocation = await bundle({
-      entryPoint: path.resolve(process.cwd(), 'remotion/Root.tsx'),
+      entryPoint: path.resolve(process.cwd(), 'remotion/index.ts'),
     });
 
     // 2. Select Composition
@@ -57,17 +57,17 @@ app.post('/api/render', async (req, res) => {
       });
 
     if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
-    
+
     const { data: { publicUrl } } = supabase.storage.from('video-assets').getPublicUrl(`renders/${outputFilename}`);
-  
+
     // 5. Update Database ('video_results' table)
     const { error: dbError } = await supabase
-      .from('video_results') 
+      .from('video_results')
       .update({ video_url: publicUrl })
       .eq('id', videoId);
 
     if (dbError) throw new Error(`Database Update failed: ${dbError.message}`);
-    
+
     fs.unlinkSync(outputLocation);
     console.log("Success! URL:", publicUrl);
     res.json({ success: true, url: publicUrl });
