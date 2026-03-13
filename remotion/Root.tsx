@@ -1,5 +1,5 @@
 import { Composition } from 'remotion';
-import { MyVideoTemplate, type VideoProps } from './Composition.js';
+import { MyVideoTemplate, type VideoProps } from './Composition';
 
 export const RemotionRoot: React.FC = () => {
     return (
